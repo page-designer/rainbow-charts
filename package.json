@@ -24,7 +24,10 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.0.0",
+    "@ant-design/charts": "^0.9.13",
+    "lodash": "^4.17.20",
+    "antd-mobile": "^2.3.4"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
@@ -52,6 +55,7 @@
   ],
   "dependencies": {
     "@ant-design/charts": "^0.9.13",
+    "antd-mobile": "^2.3.4",
     "lodash": "^4.17.20",
     "styled-components": "^5.2.0",
     "swiper": "^6.3.3",

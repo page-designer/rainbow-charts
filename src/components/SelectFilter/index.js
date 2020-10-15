@@ -8,12 +8,11 @@ import {
   ArrowIcon,
   SelectFilterMask
 } from './style'
-import { eventCenter } from '@/pages/Page'
 import arrowUp from './images/arrow-up.png'
 import arrowDown from './images/arrow-down.png'
 
-function SelectFilter({ item, sourceData }) {
-  const { height = 45, name, key, defaultValue, subscribedReports } = item
+function SelectFilter({ item, sourceData, onChange, contentStyle }) {
+  const { height = 45, name, defaultValue } = item
   let onlyOneLevel = true
   const transfromData = (sourceData) => {
     const { list } = sourceData
@@ -71,28 +70,14 @@ function SelectFilter({ item, sourceData }) {
     onlyOneLevel ? [defaultValue] : [defalultFirstLevel, defaultValue]
   )
 
-  const onChange = (value) => {
+  const onValueChange = (value) => {
     setValue(value)
-    if (subscribedReports.includes('global')) {
-      // 全局
-      eventCenter.emit(`${key}_global`, {
-        key,
-        value: onlyOneLevel ? value[0] : value[1]
-      })
-    } else {
-      // 局部
-      subscribedReports.forEach((compId) => {
-        eventCenter.emit(`${key}_${compId}`, {
-          key,
-          value: onlyOneLevel ? value[0] : value[1]
-        })
-      })
-    }
+    onChange && onChange(onlyOneLevel ? value[0] : value[1])
   }
 
   return (
     <SelectFilterWrapper height={height}>
-      <SelectFilterContent>
+      <SelectFilterContent style={contentStyle}>
         <SearchBar
           style={{
             height,
@@ -113,7 +98,7 @@ function SelectFilter({ item, sourceData }) {
           data={data}
           value={value}
           level={onlyOneLevel ? 1 : 2}
-          onChange={onChange}
+          onChange={onValueChange}
           height={document.documentElement.clientHeight * 0.4}
         />
         {show ? <SelectFilterMask onClick={() => setShow(false)} /> : null}
